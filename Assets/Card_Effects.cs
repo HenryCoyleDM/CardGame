@@ -16,6 +16,9 @@ public class Card_Effects : MonoBehaviour
         if (Input.GetKeyDown("1")) {
             Dash_Card();
         }
+        if (Input.GetKeyDown("2")) {
+            Jump_Card();
+        }
     }
 
     void Dash_Card() {
@@ -27,5 +30,11 @@ public class Card_Effects : MonoBehaviour
     IEnumerator DelayUndash(Player player) {
         yield return new WaitForSeconds(15f);
         player.MovementSpeed /= 2;
+    }
+
+    void Jump_Card() {
+        Debug.Log("Called jump card");
+        Player player = FindObjectOfType<Player>();
+        player.Jump(player.JumpForce * 2);
     }
 }

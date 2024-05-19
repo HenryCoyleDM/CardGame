@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
     private float CameraYaw = 0.0f;
     private float CameraPitch = 0.0f;
     private float VerticalVelocity = 0.0f;
+    private bool JumpedThisTick = false;
     
     // Start is called before the first frame update
     void Start()
@@ -27,6 +29,13 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
+    void Update() {
+        if (Input.GetKeyDown("space")) {
+            Jump(JumpForce);
+        }
+    }
+
+    
     void FixedUpdate()
     {        
         // adjust the angle of the camera
@@ -38,11 +47,8 @@ public class Player : MonoBehaviour
         // rotate the player around the vertical axis only
         transform.rotation = Quaternion.Euler(0.0f, CameraYaw, 0.0f);
         // apply gravity and jumping force
-        if (characterController.isGrounded) {
-            VerticalVelocity = 0.0f;
-            if (Input.GetAxis("Jump") > 0) {
-                VerticalVelocity = JumpForce;
-            }
+        if (!JumpedThisTick && characterController.isGrounded) {
+            VerticalVelocity = -0.1f;
         } else {
             VerticalVelocity -= Gravity * Time.deltaTime;
         }
@@ -50,5 +56,23 @@ public class Player : MonoBehaviour
         Vector3 horizontalMovement = transform.right * Input.GetAxisRaw("Horizontal") + transform.forward * Input.GetAxisRaw("Vertical");
         // move the character and add in gravity
         characterController.Move((horizontalMovement * MovementSpeed + Vector3.up * VerticalVelocity) * Time.deltaTime);
+        if (IsOutOfBounds()) {
+            transform.position = new Vector3(0.0f, 10.0f, 0.0f);
+        }
+        JumpedThisTick = false;
+    }
+
+    public void Jump(float force) {
+        if (characterController.isGrounded) {
+            VerticalVelocity = force;
+            JumpedThisTick = true;
+            Debug.Log("Player jumped with force " + force);
+        } else {
+            Debug.Log("Player tried to jump but wasn't grounded");
+        }
+    }
+
+    public bool IsOutOfBounds() {
+        return transform.position.y < -50.0f;
     }
 }
