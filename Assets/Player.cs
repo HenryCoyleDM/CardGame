@@ -33,11 +33,6 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown("space")) {
             Jump(JumpForce);
         }
-    }
-
-    
-    void FixedUpdate()
-    {        
         // adjust the angle of the camera
         CameraYaw += Input.GetAxisRaw("Mouse X") * Time.deltaTime * MouseSensitivity;
         CameraPitch += Input.GetAxisRaw("Mouse Y") * Time.deltaTime * MouseSensitivity;
@@ -46,6 +41,10 @@ public class Player : MonoBehaviour
         PlayerCamera.transform.rotation = Quaternion.Euler(-CameraPitch, CameraYaw, 0);
         // rotate the player around the vertical axis only
         transform.rotation = Quaternion.Euler(0.0f, CameraYaw, 0.0f);
+    }
+
+    void FixedUpdate()
+    {
         // apply gravity and jumping force
         if (!JumpedThisTick && characterController.isGrounded) {
             VerticalVelocity = -0.1f;
@@ -56,8 +55,10 @@ public class Player : MonoBehaviour
         Vector3 horizontalMovement = transform.right * Input.GetAxisRaw("Horizontal") + transform.forward * Input.GetAxisRaw("Vertical");
         // move the character and add in gravity
         characterController.Move((horizontalMovement * MovementSpeed + Vector3.up * VerticalVelocity) * Time.deltaTime);
+        EliminateVerticalVelocityIfHitCeiling();
         if (IsOutOfBounds()) {
             transform.position = new Vector3(0.0f, 10.0f, 0.0f);
+            VerticalVelocity = 0.0f;
         }
         JumpedThisTick = false;
     }
@@ -74,5 +75,11 @@ public class Player : MonoBehaviour
 
     public bool IsOutOfBounds() {
         return transform.position.y < -50.0f;
+    }
+
+    private void EliminateVerticalVelocityIfHitCeiling() {
+        if ((characterController.collisionFlags & CollisionFlags.Above) != 0) {
+            VerticalVelocity = 0;
+        }
     }
 }
