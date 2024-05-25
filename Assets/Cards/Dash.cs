@@ -2,16 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 [Serializable]
 public class Dash : Card
 {
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
-        CardName = "Dash";
-        CardText = "x2 Runspeed for 15 s";
+        Details = AssetDatabase.LoadAssetAtPath<CardDetails>("Assets/Cards/Dash.asset");
     }
 
     // Update is called once per frame

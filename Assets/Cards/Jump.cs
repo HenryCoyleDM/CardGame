@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Jump : Card
 {
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
-        CardName = "Jump";
-        CardText = "Jump with twice normal jump height";
+        Details = AssetDatabase.LoadAssetAtPath<CardDetails>("Assets/Cards/Jump.asset");
     }
 
     // Update is called once per frame

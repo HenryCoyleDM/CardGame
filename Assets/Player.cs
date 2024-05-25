@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
         CameraPitch += Input.GetAxisRaw("Mouse Y") * Time.deltaTime * MouseSensitivity;
         CameraPitch = Math.Clamp(CameraPitch, -90.0f, 90.0f);
         // feed the new angle to the main camera
-        PlayerCamera.transform.rotation = Quaternion.Euler(-CameraPitch, CameraYaw, 0);
+        PlayerCamera.transform.localRotation = Quaternion.Euler(-CameraPitch, 0.0f, 0.0f);
         // rotate the player around the vertical axis only
         transform.rotation = Quaternion.Euler(0.0f, CameraYaw, 0.0f);
     }

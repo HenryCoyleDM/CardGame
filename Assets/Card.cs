@@ -6,11 +6,21 @@ using UnityEngine;
 [Serializable]
 public abstract class Card : MonoBehaviour
 {
-    public String CardName;
-    public String CardText;
+    private CardDetails _Details;
+    public CardDetails Details {
+        get {
+            if (_Details == null) {
+                Start();
+            }
+            return _Details;
+        }
+        set {
+            _Details = value;
+        }
+    }
     
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         
     }

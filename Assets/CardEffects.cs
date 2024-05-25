@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,10 @@ using UnityEngine.Scripting;
 public class CardEffects : MonoBehaviour
 {
 
-    public LinkedList<Card> DrawPile = new();
+    public LinkedList<Card> Deck = new();
     public LinkedList<Card> DiscardPile = new();
     public List<Card> Hand = new();
+    private HandDisplay hand_display;
     
     // Start is called before the first frame update
     void Start()
@@ -26,14 +28,23 @@ public class CardEffects : MonoBehaviour
         DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>());
         ShuffleDiscardAndMakeNewDrawPile();
         DrawNewHand(5);
+        hand_display = FindObjectOfType<HandDisplay>();
+        if (hand_display == null) {
+            throw new Exception("Can't find hand display");
+        }
+        hand_display.UpdateDeck(this);
+        hand_display.UpdateHand(this);
     }
 
     // Update is called once per frame
     void Update()
     {
         int input = GetCardSelectionKeyDown();
-        if (input >= 0) {
+        if (input >= 0 && input < Hand.Count) {
             Hand[input].PlayCard();
+            DiscardPile.AddLast(Hand[input]);
+            Hand.RemoveAt(input);
+            hand_display.UpdateHand(this);
         }
     }
 
@@ -87,10 +98,9 @@ public class CardEffects : MonoBehaviour
             }
             Card next_card = node.Value;
             DiscardPile.Remove(node);
-            DrawPile.AddFirst(next_card);
+            Deck.AddFirst(next_card);
             n--;
         }
-        Debug.Log("Deck contains " + DrawPile.Count + " cards and Discard contains " + DiscardPile.Count + " cards");
     }
 
     public void DrawNewHand(int num_cards) {
@@ -99,16 +109,28 @@ public class CardEffects : MonoBehaviour
 
     public bool DrawCards(int num_cards) {
         for (int i=0; i<num_cards; i++) {
-            if (DrawPile.Count == 0) {
+            if (Deck.Count == 0) {
                 if (DiscardPile.Count == 0) {
                     return false;
                 } else {
                     ShuffleDiscardAndMakeNewDrawPile();
                 }
             }
-            Hand.Add(DrawPile.First.Value);
-            DrawPile.RemoveFirst();
+            Hand.Add(Deck.First.Value);
+            Deck.RemoveFirst();
         }
         return true;
+    }
+
+    public int CardCount() {
+        return Deck.Count + Hand.Count + DiscardPile.Count;
+    }
+
+    public Card[] GetAllCards() {
+        Card[] result = new Card[CardCount()];
+        Deck.CopyTo(result, 0);
+        DiscardPile.CopyTo(result, Deck.Count);
+        Hand.CopyTo(result, Deck.Count + DiscardPile.Count);
+        return result;
     }
 }
