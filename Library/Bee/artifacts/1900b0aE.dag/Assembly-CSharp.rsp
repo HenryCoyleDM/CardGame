@@ -351,8 +351,11 @@
 "Assets/CardEffects.cs"
 "Assets/Cards/Dash.cs"
 "Assets/Cards/Jump.cs"
+"Assets/Cards/Stab.cs"
+"Assets/Enemy.cs"
 "Assets/FPSTracker.cs"
 "Assets/HandDisplay.cs"
+"Assets/HPTracker.cs"
 "Assets/Player.cs"
 -langversion:9.0
 

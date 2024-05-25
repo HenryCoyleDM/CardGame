@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.Scripting;
 
@@ -25,7 +26,7 @@ public class CardEffects : MonoBehaviour
         DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>());
         DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>());
         DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>());
-        DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>());
+        DiscardPile.AddFirst(Card.CreateCardGameObject<Stab>());
         ShuffleDiscardAndMakeNewDrawPile();
         DrawNewHand(5);
         hand_display = FindObjectOfType<HandDisplay>();
@@ -36,6 +37,8 @@ public class CardEffects : MonoBehaviour
         hand_display.UpdateHand(this);
     }
 
+    private bool draw_new_hand_button_pressed = false;
+    
     // Update is called once per frame
     void Update()
     {
@@ -45,6 +48,16 @@ public class CardEffects : MonoBehaviour
             DiscardPile.AddLast(Hand[input]);
             Hand.RemoveAt(input);
             hand_display.UpdateHand(this);
+        }
+        if (Input.GetAxis("Fire2") > 0) {
+            if (!draw_new_hand_button_pressed) {
+                DiscardHand();
+                DrawNewHand(5);
+                hand_display.UpdateHand(this);
+            }
+            draw_new_hand_button_pressed = true;
+        } else {
+            draw_new_hand_button_pressed = false;
         }
     }
 
@@ -101,6 +114,13 @@ public class CardEffects : MonoBehaviour
             Deck.AddFirst(next_card);
             n--;
         }
+    }
+
+    public void DiscardHand() {
+        foreach (Card card in Hand) {
+            DiscardPile.AddLast(card);
+        }
+        Hand.Clear();
     }
 
     public void DrawNewHand(int num_cards) {

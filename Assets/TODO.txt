@@ -1,0 +1,5 @@
+Add numbers to cards in UI
+Add UI elements for number of cards in deck and discard
+More cards
+Enemies and damage
+Combat cards

@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     public float CameraFollowDistance;
     public float JumpForce;
     public float Gravity;
+    public float HP;
+    public float MaxHP;
 
     private float CameraYaw = 0.0f;
     private float CameraPitch = 0.0f;
@@ -81,5 +83,9 @@ public class Player : MonoBehaviour
         if ((characterController.collisionFlags & CollisionFlags.Above) != 0) {
             VerticalVelocity = 0;
         }
+    }
+    
+    public void RecieveDamage(float amount) {
+        HP -= amount;
     }
 }
