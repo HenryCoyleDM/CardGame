@@ -45,10 +45,11 @@
      <Compile Include="Assets\HPTracker.cs" />
      <Compile Include="Assets\CardDetails.cs" />
      <Compile Include="Assets\HandDisplay.cs" />
+     <Compile Include="Assets\TimeController.cs" />
      <Compile Include="Assets\Cards\Stab.cs" />
      <Compile Include="Assets\CardEffects.cs" />
      <Compile Include="Assets\Player.cs" />
-     <Compile Include="Assets\TimeController.cs" />
+     <Compile Include="Assets\EnemyAnimation.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

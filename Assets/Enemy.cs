@@ -17,15 +17,15 @@ public class Enemy : MonoBehaviour
     private float VerticalVelocity = 0.0f;
     private Player TargetPlayer;
     private CharacterController characterController;
-    private bool IsAttacking = false;
-    private float AttackProgress = 0.0f;
-    public AnimationCurve AttackAnimation;
+    public bool AttackIsTriggered = false;
+    private EnemyAnimation enemyAnimation;
     
     // Start is called before the first frame update
     void Start()
     {
         TargetPlayer = FindObjectOfType<Player>();
         characterController = GetComponent<CharacterController>();
+        enemyAnimation = GetComponentInChildren<EnemyAnimation>();
     }
 
     // Update is called once per frame
@@ -36,25 +36,13 @@ public class Enemy : MonoBehaviour
         } else {
             VerticalVelocity -= Gravity * Time.deltaTime;
         }
-        if (IsAttacking) {
-            bool has_hit = AttackProgress > 0.5f;
-            AttackProgress += Time.deltaTime;
-            if (AttackProgress >= 1.0f) {
-                AttackProgress = 0.0f;
-                IsAttacking = false;
-            }
-            if (!has_hit && AttackProgress > 0.5f) {
-                DealDamage(AttackStrength, TargetPlayer);
-            }
-            AnimateAttack(AttackProgress);
-        } else {
+        Vector3 Velocity = Vector3.up * VerticalVelocity;
+        UpdateAttackingState();
+        if (!enemyAnimation.IsInAttackingAnimation()) {
             transform.rotation = Quaternion.Euler(0.0f, Quaternion.LookRotation(TargetPlayer.transform.position - transform.position).eulerAngles.y, 0.0f);
-            characterController.Move((transform.forward * MovementSpeed + Vector3.up * VerticalVelocity) * Time.deltaTime);
-            if (GetDistanceToTarget() < AttackTriggerDistance) {
-                IsAttacking = true;
-            }
+            Velocity += transform.forward * MovementSpeed;
         }
-        
+        characterController.Move(Velocity * Time.deltaTime);
     }
 
     public void DealDamage(float amount, Player target) {
@@ -74,11 +62,21 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void AnimateAttack(float progress) {
-        transform.rotation = Quaternion.Euler(AttackAnimation.Evaluate(AttackProgress) * 60.0f, transform.rotation.eulerAngles.y, 0.0f);
+    // private void AnimateAttack(float progress) {
+        // transform.rotation = Quaternion.Euler(AttackAnimation.Evaluate(AttackProgress) * 60.0f, transform.rotation.eulerAngles.y, 0.0f);
+    // }
+
+    public float GetDistanceToTarget() {
+        return (transform.position - TargetPlayer.transform.position).magnitude;
     }
 
-    private float GetDistanceToTarget() {
-        return (transform.position - TargetPlayer.transform.position).magnitude;
+    public bool UpdateAttackingState() {
+        bool isCloseEnough = GetDistanceToTarget() < AttackTriggerDistance;
+        AttackIsTriggered = isCloseEnough;
+        return isCloseEnough;
+    }
+
+    public void ActivateAttack() {
+        DealDamage(10.0f, TargetPlayer);
     }
 }
