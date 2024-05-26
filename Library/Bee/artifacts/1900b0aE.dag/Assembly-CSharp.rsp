@@ -357,6 +357,7 @@
 "Assets/HandDisplay.cs"
 "Assets/HPTracker.cs"
 "Assets/Player.cs"
+"Assets/TimeController.cs"
 -langversion:9.0
 
 /deterministic

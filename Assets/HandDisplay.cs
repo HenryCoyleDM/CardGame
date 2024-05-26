@@ -11,7 +11,7 @@ public class HandDisplay : MonoBehaviour
 {
     // private CardEffects DeckHandler;
     // maps the cards from DeckHandler to GameObjects used to display cards
-    private readonly Dictionary<Card, GameObject> Cardboards = new();
+    private readonly Dictionary<Card, CardboardDrawer> Cardboards = new();
     public CardboardDrawer CardboardPrefab;
     public float CardSpacing;
     
@@ -33,14 +33,15 @@ public class HandDisplay : MonoBehaviour
 
     public void UpdateHand(CardEffects deckHandler) {
         Debug.Log("Updating hand");
-        foreach (GameObject cardboard in Cardboards.Values) {
-            cardboard.SetActive(false);
+        foreach (CardboardDrawer cardboard in Cardboards.Values) {
+            cardboard.gameObject.SetActive(false);
         }
         for (int i=0; i<deckHandler.Hand.Count; i++) {
             Card card = deckHandler.Hand[i];
-            GameObject cardboard = Cardboards[card];
-            cardboard.SetActive(true);
+            CardboardDrawer cardboard = Cardboards[card];
+            cardboard.gameObject.SetActive(true);
             cardboard.transform.localPosition = GetCoordinatesOfCardIndex(i, deckHandler.Hand.Count);
+            cardboard.SetSelectionKey(i + 1);
         }
     }
 
@@ -59,7 +60,7 @@ public class HandDisplay : MonoBehaviour
         // add new cards to the dictionary if they don't already exist
         foreach (Card card in deck) {
             if (!Cardboards.ContainsKey(card)) {
-                GameObject cardboard = CreateCardboard(card);
+                CardboardDrawer cardboard = CreateCardboard(card);
                 Cardboards[card] = cardboard;
             } else {
                 CardsArePresentInNewDeck[card] = true;
@@ -68,17 +69,17 @@ public class HandDisplay : MonoBehaviour
         // removes and destroys gameobjects if those cards are no longer in the deck
         foreach (KeyValuePair<Card, bool> is_card_present in CardsArePresentInNewDeck.AsEnumerable()) {
             if (!is_card_present.Value) {
-                GameObject old_cardboard = Cardboards[is_card_present.Key];
+                CardboardDrawer old_cardboard = Cardboards[is_card_present.Key];
                 Destroy(old_cardboard);
                 Cardboards.Remove(is_card_present.Key);
             }
         }
     }
 
-    private GameObject CreateCardboard(Card card) {
+    private CardboardDrawer CreateCardboard(Card card) {
         CardboardDrawer result = Instantiate(CardboardPrefab);
         result.SetImage(card);
         result.transform.SetParent(transform);
-        return result.gameObject;
+        return result;
     }
 }

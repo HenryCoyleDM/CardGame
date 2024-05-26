@@ -20,7 +20,7 @@ public class FPSTracker : MonoBehaviour
 
     IEnumerator UpdateFPS() {
         while (true) {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);
             int fps = (int) (1f / Time.unscaledDeltaTime);
             TextMeshProUGUI text = gameObject.GetComponent<TextMeshProUGUI>();
             text.text = "FPS " + fps;

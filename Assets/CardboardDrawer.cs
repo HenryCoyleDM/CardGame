@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,5 +22,10 @@ public class CardboardDrawer : MonoBehaviour
     public void SetImage(Card card) {
         Image image_component = GetComponent<Image>();
         image_component.sprite = card.Details.Image;
+    }
+
+    public void SetSelectionKey(int number) {
+        TextMeshProUGUI text = GetComponentInChildren<TextMeshProUGUI>();
+        text.text = number.ToString();
     }
 }

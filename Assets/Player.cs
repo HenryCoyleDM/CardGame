@@ -36,17 +36,13 @@ public class Player : MonoBehaviour
             Jump(JumpForce);
         }
         // adjust the angle of the camera
-        CameraYaw += Input.GetAxisRaw("Mouse X") * Time.deltaTime * MouseSensitivity;
-        CameraPitch += Input.GetAxisRaw("Mouse Y") * Time.deltaTime * MouseSensitivity;
+        CameraYaw += Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * MouseSensitivity;
+        CameraPitch += Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * MouseSensitivity;
         CameraPitch = Math.Clamp(CameraPitch, -90.0f, 90.0f);
         // feed the new angle to the main camera
         PlayerCamera.transform.localRotation = Quaternion.Euler(-CameraPitch, 0.0f, 0.0f);
         // rotate the player around the vertical axis only
         transform.rotation = Quaternion.Euler(0.0f, CameraYaw, 0.0f);
-    }
-
-    void FixedUpdate()
-    {
         // apply gravity and jumping force
         if (!JumpedThisTick && characterController.isGrounded) {
             VerticalVelocity = -0.1f;
@@ -63,6 +59,11 @@ public class Player : MonoBehaviour
             VerticalVelocity = 0.0f;
         }
         JumpedThisTick = false;
+    }
+
+    void FixedUpdate()
+    {
+        
     }
 
     public void Jump(float force) {
