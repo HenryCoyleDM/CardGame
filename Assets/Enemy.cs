@@ -18,14 +18,14 @@ public class Enemy : MonoBehaviour
     private Player TargetPlayer;
     private CharacterController characterController;
     public bool AttackIsTriggered = false;
-    private EnemyAnimation enemyAnimation;
+    private Animator animator;
     
     // Start is called before the first frame update
     void Start()
     {
         TargetPlayer = FindObjectOfType<Player>();
         characterController = GetComponent<CharacterController>();
-        enemyAnimation = GetComponentInChildren<EnemyAnimation>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
         }
         Vector3 Velocity = Vector3.up * VerticalVelocity;
         UpdateAttackingState();
-        if (!enemyAnimation.IsInAttackingAnimation()) {
+        if (!IsInAttackingAnimation()) {
             transform.rotation = Quaternion.Euler(0.0f, Quaternion.LookRotation(TargetPlayer.transform.position - transform.position).eulerAngles.y, 0.0f);
             Velocity += transform.forward * MovementSpeed;
         }
@@ -73,10 +73,15 @@ public class Enemy : MonoBehaviour
     public bool UpdateAttackingState() {
         bool isCloseEnough = GetDistanceToTarget() < AttackTriggerDistance;
         AttackIsTriggered = isCloseEnough;
+        animator.SetBool("IsAttacking", AttackIsTriggered);
         return isCloseEnough;
     }
 
     public void ActivateAttack() {
         DealDamage(10.0f, TargetPlayer);
+    }
+
+    private bool IsInAttackingAnimation() {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack");
     }
 }

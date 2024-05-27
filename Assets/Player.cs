@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -19,11 +20,13 @@ public class Player : MonoBehaviour
     private float CameraPitch = 0.0f;
     private float VerticalVelocity = 0.0f;
     private bool JumpedThisTick = false;
+    private Animator animator;
     
     // Start is called before the first frame update
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
         // keep cursor in center of frame
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -88,5 +91,21 @@ public class Player : MonoBehaviour
     
     public void RecieveDamage(float amount) {
         HP -= amount;
+    }
+
+    public void StartStabbing() {
+        animator.SetBool("IsStabbing", true);
+    }
+
+    public void ExecuteStab() {
+        animator.SetBool("IsStabbing", false);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 5.0f);
+        foreach (Collider collider in colliders) {
+            Enemy enemy = collider.gameObject.GetComponent<Enemy>();
+            if (enemy != null) {
+                enemy.RecieveDamage(10.0f);
+                return;
+            }
+        }
     }
 }

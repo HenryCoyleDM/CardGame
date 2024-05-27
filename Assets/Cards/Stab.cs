@@ -20,14 +20,16 @@ public class Stab : Card
 
     public override void PlayCard()
     {
+        
         Player player = FindObjectOfType<Player>();
-        Collider[] colliders = Physics.OverlapSphere(player.transform.position, 5.0f);
-        foreach (Collider collider in colliders) {
-            Enemy enemy = collider.gameObject.GetComponent<Enemy>();
-            if (enemy != null) {
-                enemy.RecieveDamage(10.0f);
-                return;
-            }
-        }
+        player.StartStabbing();
+        //Collider[] colliders = Physics.OverlapSphere(player.transform.position, 5.0f);
+        //foreach (Collider collider in colliders) {
+        //    Enemy enemy = collider.gameObject.GetComponent<Enemy>();
+        //    if (enemy != null) {
+        //        enemy.RecieveDamage(10.0f);
+        //        return;
+        //    }
+        //}
     }
 }

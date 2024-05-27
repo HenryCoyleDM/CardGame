@@ -353,7 +353,6 @@
 "Assets/Cards/Jump.cs"
 "Assets/Cards/Stab.cs"
 "Assets/Enemy.cs"
-"Assets/EnemyAnimation.cs"
 "Assets/FPSTracker.cs"
 "Assets/HandDisplay.cs"
 "Assets/HPTracker.cs"
