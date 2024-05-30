@@ -345,10 +345,12 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
+"Assets/AllCardTypes.cs"
 "Assets/Card.cs"
 "Assets/CardboardDrawer.cs"
 "Assets/CardDetails.cs"
 "Assets/CardEffects.cs"
+"Assets/CardReward.cs"
 "Assets/Cards/Dash.cs"
 "Assets/Cards/Jump.cs"
 "Assets/Cards/Stab.cs"
@@ -356,7 +358,10 @@
 "Assets/FPSTracker.cs"
 "Assets/HandDisplay.cs"
 "Assets/HPTracker.cs"
+"Assets/Plasma.cs"
+"Assets/PlasmaGun.cs"
 "Assets/Player.cs"
+"Assets/TextureTiler.cs"
 "Assets/TimeController.cs"
 -langversion:9.0
 

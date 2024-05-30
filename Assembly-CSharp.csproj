@@ -38,17 +38,22 @@
   <ItemGroup>
      <Compile Include="Assets\FPSTracker.cs" />
      <Compile Include="Assets\Cards\Jump.cs" />
+     <Compile Include="Assets\PlasmaGun.cs" />
      <Compile Include="Assets\Enemy.cs" />
      <Compile Include="Assets\Cards\Dash.cs" />
      <Compile Include="Assets\Card.cs" />
      <Compile Include="Assets\CardboardDrawer.cs" />
      <Compile Include="Assets\HPTracker.cs" />
      <Compile Include="Assets\CardDetails.cs" />
+     <Compile Include="Assets\TextureTiler.cs" />
      <Compile Include="Assets\HandDisplay.cs" />
      <Compile Include="Assets\TimeController.cs" />
      <Compile Include="Assets\Cards\Stab.cs" />
+     <Compile Include="Assets\Plasma.cs" />
      <Compile Include="Assets\CardEffects.cs" />
      <Compile Include="Assets\Player.cs" />
+     <Compile Include="Assets\CardReward.cs" />
+     <Compile Include="Assets\AllCardTypes.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

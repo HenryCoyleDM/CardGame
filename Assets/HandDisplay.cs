@@ -11,7 +11,7 @@ public class HandDisplay : MonoBehaviour
 {
     // private CardEffects DeckHandler;
     // maps the cards from DeckHandler to GameObjects used to display cards
-    private readonly Dictionary<Card, CardboardDrawer> Cardboards = new();
+    public readonly Dictionary<Card, CardboardDrawer> Cardboards = new();
     public CardboardDrawer CardboardPrefab;
     public float CardSpacing;
     
@@ -32,7 +32,7 @@ public class HandDisplay : MonoBehaviour
     }
 
     public void UpdateHand(CardEffects deckHandler) {
-        Debug.Log("Updating hand");
+        // Debug.Log("Updating hand");
         foreach (CardboardDrawer cardboard in Cardboards.Values) {
             cardboard.gameObject.SetActive(false);
         }
@@ -51,7 +51,7 @@ public class HandDisplay : MonoBehaviour
     }
 
     public void UpdateDeck(CardEffects deckHandler) {
-        Debug.Log("Updating hand display deck");
+        // Debug.Log("Updating hand display deck");
         Card[] deck = deckHandler.GetAllCards();
         Dictionary<Card, bool> CardsArePresentInNewDeck = new();
         foreach (Card card in Cardboards.Keys) {
@@ -80,6 +80,7 @@ public class HandDisplay : MonoBehaviour
         CardboardDrawer result = Instantiate(CardboardPrefab);
         result.SetImage(card);
         result.transform.SetParent(transform);
+        result.gameObject.SetActive(false);
         return result;
     }
 }

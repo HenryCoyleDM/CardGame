@@ -6,8 +6,8 @@ using UnityEngine;
 [System.Serializable]
 public class Player : MonoBehaviour
 {
-    private CharacterController characterController;
-    public GameObject PlayerCamera;
+    private CharacterController CharacterController;
+    private Camera PlayerCamera;
     public float MovementSpeed;
     public float MouseSensitivity;
     public float CameraFollowDistance;
@@ -15,18 +15,20 @@ public class Player : MonoBehaviour
     public float Gravity;
     public float HP;
     public float MaxHP;
-
+    public Vector3 HitboxFrameDisplacement = Vector3.zero;
+    private Vector3 LastHitboxFrameDisplacement = Vector3.zero;
     private float CameraYaw = 0.0f;
     private float CameraPitch = 0.0f;
-    private float VerticalVelocity = 0.0f;
+    public Vector3 Velocity = Vector3.zero;
     private bool JumpedThisTick = false;
-    private Animator animator;
+    private Animator PlayerAnimator;
     
     // Start is called before the first frame update
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
+        CharacterController = GetComponent<CharacterController>();
+        PlayerCamera = GetComponentInChildren<Camera>();
+        PlayerAnimator = GetComponent<Animator>();
         // keep cursor in center of frame
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -38,28 +40,22 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown("space")) {
             Jump(JumpForce);
         }
-        // adjust the angle of the camera
-        CameraYaw += Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * MouseSensitivity;
-        CameraPitch += Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * MouseSensitivity;
-        CameraPitch = Math.Clamp(CameraPitch, -90.0f, 90.0f);
-        // feed the new angle to the main camera
-        PlayerCamera.transform.localRotation = Quaternion.Euler(-CameraPitch, 0.0f, 0.0f);
-        // rotate the player around the vertical axis only
-        transform.rotation = Quaternion.Euler(0.0f, CameraYaw, 0.0f);
+        AdjustCameraAngle();
         // apply gravity and jumping force
-        if (!JumpedThisTick && characterController.isGrounded) {
-            VerticalVelocity = -0.1f;
+        if (!JumpedThisTick && CharacterController.isGrounded) {
+            Velocity.y = -0.1f;
         } else {
-            VerticalVelocity -= Gravity * Time.deltaTime;
+            Velocity.y -= Gravity * Time.deltaTime;
         }
         // use WASD to determine horizontal displacement od character
-        Vector3 horizontalMovement = transform.right * Input.GetAxisRaw("Horizontal") + transform.forward * Input.GetAxisRaw("Vertical");
+        Velocity = Velocity.y * Vector3.up + (transform.right * Input.GetAxisRaw("Horizontal") + transform.forward * Input.GetAxisRaw("Vertical")) * MovementSpeed;
+        CompensateForHitboxDisplacement();
         // move the character and add in gravity
-        characterController.Move((horizontalMovement * MovementSpeed + Vector3.up * VerticalVelocity) * Time.deltaTime);
-        EliminateVerticalVelocityIfHitCeiling();
+        CollisionFlags flags = CharacterController.Move(Velocity * Time.deltaTime);
+        EliminateVerticalVelocityIfHitCeiling(flags);
         if (IsOutOfBounds()) {
             transform.position = new Vector3(0.0f, 10.0f, 0.0f);
-            VerticalVelocity = 0.0f;
+            Velocity = Vector3.zero;
         }
         JumpedThisTick = false;
     }
@@ -70,8 +66,8 @@ public class Player : MonoBehaviour
     }
 
     public void Jump(float force) {
-        if (characterController.isGrounded) {
-            VerticalVelocity = force;
+        if (CharacterController.isGrounded) {
+            Velocity.y = force;
             JumpedThisTick = true;
             Debug.Log("Player jumped with force " + force);
         } else {
@@ -83,9 +79,9 @@ public class Player : MonoBehaviour
         return transform.position.y < -50.0f;
     }
 
-    private void EliminateVerticalVelocityIfHitCeiling() {
-        if ((characterController.collisionFlags & CollisionFlags.Above) != 0) {
-            VerticalVelocity = 0;
+    private void EliminateVerticalVelocityIfHitCeiling(CollisionFlags flags) {
+        if ((flags & CollisionFlags.Above) != 0) {
+            Velocity.y = 0;
         }
     }
     
@@ -94,11 +90,11 @@ public class Player : MonoBehaviour
     }
 
     public void StartStabbing() {
-        animator.SetBool("IsStabbing", true);
+        PlayerAnimator.SetBool("IsStabbing", true);
     }
 
     public void ExecuteStab() {
-        animator.SetBool("IsStabbing", false);
+        PlayerAnimator.SetBool("IsStabbing", false);
         Collider[] colliders = Physics.OverlapSphere(transform.position, 5.0f);
         foreach (Collider collider in colliders) {
             Enemy enemy = collider.gameObject.GetComponent<Enemy>();
@@ -107,5 +103,20 @@ public class Player : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void CompensateForHitboxDisplacement() {
+        Vector3 hitboxDisplacement = HitboxFrameDisplacement - LastHitboxFrameDisplacement;
+        Vector3 transformedHitboxDisplacement = transform.rotation * hitboxDisplacement;
+        LastHitboxFrameDisplacement = HitboxFrameDisplacement;
+        Velocity += transformedHitboxDisplacement / Time.deltaTime;
+    }
+
+    public void AdjustCameraAngle() {
+        CameraYaw += Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * MouseSensitivity;
+        CameraPitch += Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * MouseSensitivity;
+        CameraPitch = Math.Clamp(CameraPitch, -90.0f, 90.0f);
+        PlayerCamera.transform.localRotation = Quaternion.Euler(-CameraPitch, 0.0f, 0.0f);
+        transform.rotation = Quaternion.Euler(0.0f, CameraYaw, 0.0f);
     }
 }

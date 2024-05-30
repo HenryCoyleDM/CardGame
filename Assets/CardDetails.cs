@@ -6,7 +6,13 @@ using UnityEngine;
 [Serializable, CreateAssetMenu]
 public class CardDetails : ScriptableObject
 {
-    public String Name;
-    public String Text;
-    public Sprite Image;
+    public string Name;
+    public string Text;
+    public Texture2D Image;
+    public string ClassName;
+    public Type CardClass {
+        get {
+            return Type.GetType(ClassName);
+        }
+    }
 }

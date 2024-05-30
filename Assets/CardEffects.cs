@@ -90,7 +90,7 @@ public class CardEffects : MonoBehaviour
     private readonly System.Random RNG = new();
     
     public void ShuffleDiscardAndMakeNewDrawPile() {
-        Debug.Log("Reshuffling");
+        // Debug.Log("Reshuffling");
         int n = DiscardPile.Count;
         while (n > 0) {
             int random = RNG.Next(n);
@@ -152,5 +152,10 @@ public class CardEffects : MonoBehaviour
         DiscardPile.CopyTo(result, Deck.Count);
         Hand.CopyTo(result, Deck.Count + DiscardPile.Count);
         return result;
+    }
+
+    public void GainCardToDiscard(Card card) {
+        DiscardPile.AddLast(card);
+        hand_display.UpdateDeck(this);
     }
 }

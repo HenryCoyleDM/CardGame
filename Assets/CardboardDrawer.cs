@@ -21,7 +21,7 @@ public class CardboardDrawer : MonoBehaviour
 
     public void SetImage(Card card) {
         Image image_component = GetComponent<Image>();
-        image_component.sprite = card.Details.Image;
+        image_component.sprite = Sprite.Create(card.Details.Image, new Rect(0, 0, 620, 880), new Vector2());
     }
 
     public void SetSelectionKey(int number) {
