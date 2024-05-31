@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 [System.Serializable]
@@ -16,8 +17,10 @@ public class Player : MonoBehaviour
     public float HP;
     public float MaxHP;
     public Vector3 HitboxFrameDisplacement = Vector3.zero;
+    public float DownStairsMaxStickSlope;
+    public bool WalkForwardAutomatically;
+    public bool LockCameraAngle;
     private Vector3 LastHitboxFrameDisplacement = Vector3.zero;
-    private float CameraYaw = 0.0f;
     private float CameraPitch = 0.0f;
     public Vector3 Velocity = Vector3.zero;
     private bool JumpedThisTick = false;
@@ -41,14 +44,16 @@ public class Player : MonoBehaviour
             Jump(JumpForce);
         }
         AdjustCameraAngle();
-        // apply gravity and jumping force
+        // use WASD to determine horizontal displacement od character
+        float horizontal_input = Input.GetAxisRaw("Horizontal");
+        float vertical_input = WalkForwardAutomatically ? 1 : Input.GetAxisRaw("Vertical");
+        Velocity = Velocity.y * Vector3.up + (transform.right * horizontal_input + transform.forward * vertical_input) * MovementSpeed;
         if (!JumpedThisTick && CharacterController.isGrounded) {
-            Velocity.y = -0.1f;
+            KeepOnGround();
         } else {
+            Debug.DrawRay(transform.position, Velocity, new Color(0.5f, 0.0f, 0.8f), 0.0f, false);
             Velocity.y -= Gravity * Time.deltaTime;
         }
-        // use WASD to determine horizontal displacement od character
-        Velocity = Velocity.y * Vector3.up + (transform.right * Input.GetAxisRaw("Horizontal") + transform.forward * Input.GetAxisRaw("Vertical")) * MovementSpeed;
         CompensateForHitboxDisplacement();
         // move the character and add in gravity
         CollisionFlags flags = CharacterController.Move(Velocity * Time.deltaTime);
@@ -113,10 +118,38 @@ public class Player : MonoBehaviour
     }
 
     public void AdjustCameraAngle() {
-        CameraYaw += Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * MouseSensitivity;
-        CameraPitch += Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * MouseSensitivity;
-        CameraPitch = Math.Clamp(CameraPitch, -90.0f, 90.0f);
-        PlayerCamera.transform.localRotation = Quaternion.Euler(-CameraPitch, 0.0f, 0.0f);
-        transform.rotation = Quaternion.Euler(0.0f, CameraYaw, 0.0f);
+        if (!LockCameraAngle) {
+            float delta_camera_yaw = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * MouseSensitivity;
+            transform.rotation *= Quaternion.AngleAxis(delta_camera_yaw, Vector3.up);
+            CameraPitch += Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * MouseSensitivity;
+            CameraPitch = Math.Clamp(CameraPitch, -90.0f, 90.0f);
+            PlayerCamera.transform.localRotation = Quaternion.Euler(-CameraPitch, 0.0f, 0.0f);
+        }
+    }
+
+    public Vector3 GetHorizontalVelocity() {
+        return Velocity.x * Vector3.right + Velocity.z * Vector3.forward;
+    }
+
+    public void KeepOnGround() {
+        Vector3 horizontal_velocity = GetHorizontalVelocity();
+        if (CharacterController.isGrounded && horizontal_velocity.sqrMagnitude > 0.0f) {
+            Vector3 in_front_of_player_position = transform.position + horizontal_velocity * Time.deltaTime;
+            float raycast_distance = CharacterController.height / 2 + CharacterController.skinWidth + horizontal_velocity.magnitude * DownStairsMaxStickSlope * Time.deltaTime;
+            bool found_point_under_player = Physics.Raycast(transform.position, Vector3.down, out RaycastHit under_player_hit_info, raycast_distance + 1.5f);
+            bool found_point_on_slope = Physics.Raycast(in_front_of_player_position, Vector3.down, out RaycastHit on_slope_hit_info, raycast_distance + 1.5f);
+            if (found_point_under_player && found_point_on_slope) {
+                float current_elevation = under_player_hit_info.point.y;
+                float target_elevation = on_slope_hit_info.point.y;
+                float delta_elevation = target_elevation - current_elevation;
+                if (delta_elevation >= -horizontal_velocity.magnitude * DownStairsMaxStickSlope && delta_elevation < 0.0f) {
+                    Velocity.y = delta_elevation / Time.deltaTime - 0.1f;
+                    Debug.DrawRay(transform.position, Velocity, Color.magenta, 0.0f, false);
+                    return;
+                }
+            }
+            Velocity.y = -0.1f;
+            Debug.DrawRay(transform.position, Velocity, Color.blue, 0.0f, false);
+        }
     }
 }

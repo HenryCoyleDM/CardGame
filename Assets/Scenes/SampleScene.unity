@@ -257,14 +257,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 250979435}
-  m_LocalRotation: {x: 0.20384319, y: -0.675257, z: -0.20485507, w: 0.6786092}
+  m_LocalRotation: {x: 0.2043527, y: -0.67693424, z: -0.2043527, w: 0.67693424}
   m_LocalPosition: {x: -12.04, y: 5.85, z: -2.6}
   m_LocalScale: {x: 23.238771, y: 0.54965, z: 6.5574}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: -89.716, z: -33.596}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: -33.596}
 --- !u!1 &417292475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1982,6 +1982,9 @@ MonoBehaviour:
   HP: 100
   MaxHP: 100
   HitboxFrameDisplacement: {x: 0, y: 0, z: 0}
+  DownStairsMaxStickSlope: 1
+  WalkForwardAutomatically: 0
+  LockCameraAngle: 0
   Velocity: {x: 0, y: 0, z: 0}
 --- !u!143 &1671516504
 CharacterController:
@@ -2009,7 +2012,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671516502}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.102611065, y: 2.7817907, z: -1.4488344}
+  m_LocalPosition: {x: -12.2, y: 13.08, z: -20.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2133,6 +2136,7 @@ GameObject:
   - component: {fileID: 1794114811}
   - component: {fileID: 1794114810}
   - component: {fileID: 1794114809}
+  - component: {fileID: 1794114813}
   m_Layer: 0
   m_Name: Second Floor
   m_TagString: Untagged
@@ -2173,7 +2177,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 4d875828d53ba8443a417aaad8243327, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2211,13 +2215,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794114808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.15, y: 11.89, z: -23.48}
+  m_LocalPosition: {x: -24.15, y: 12, z: -23.48}
   m_LocalScale: {x: 38.10433, y: 1, z: 22.726566}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1794114813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794114808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e64d19621a0644d439f72bdb131d8afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileX: 1
+  tileY: 1
+  IsFloor: 1
 --- !u!1 &1951584246
 GameObject:
   m_ObjectHideFlags: 0
@@ -2554,66 +2573,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2027191947}
   m_CullTransparentMesh: 1
---- !u!1 &2027808033
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2027808036}
-  - component: {fileID: 2027808035}
-  - component: {fileID: 2027808034}
-  m_Layer: 0
-  m_Name: VisualScripting SceneVariables
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2027808034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2027808033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 765181c9ef4b24d32a4f7cbd2ef370dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2027808035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2027808033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e741851cba3ad425c91ecf922cc6b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _data:
-    _json: '{"declarations":{"Kind":"Scene","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
-    _objectReferences: []
---- !u!4 &2027808036
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2027808033}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2049145606
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,6 +36,11 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\ContentSizeFitter.cs" />
+     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Text.cs" />
+     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Button.cs" />
+     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\CanvasScaler.cs" />
+     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\ScrollRect.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\UIElements\PanelRaycaster.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Image.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\LayoutElement.cs" />
@@ -60,11 +65,10 @@
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Culling\IClipRegion.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\GraphicRaycaster.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\InputField.cs" />
+     <Compile Include="Library\PackageCache\com.unity.shadergraph@12.1.11\Editor\Generation\Targets\BuiltIn\Editor\ShaderGUI\MaterialAssemblyReference\RawRenderQueue.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\ToggleGroup.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\RaycastResult.cs" />
-     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Button.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Navigation.cs" />
-     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\ContentSizeFitter.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\InputModules\BaseInput.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\ILayoutElement.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\MaskUtilities.cs" />
@@ -80,10 +84,10 @@
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\MultipleDisplayUtilities.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\VertexModifiers\BaseMeshEffect.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\LayoutRebuilder.cs" />
-     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\IMask.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\HorizontalOrVerticalLayoutGroup.cs" />
-     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\InputModules\BaseInputModule.cs" />
+     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\IMask.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\GridLayoutGroup.cs" />
+     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\InputModules\BaseInputModule.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\InputModules\PointerInputModule.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\RaycasterManager.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Toggle.cs" />
@@ -91,11 +95,10 @@
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Slider.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\HorizontalLayoutGroup.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\IMaskable.cs" />
+     <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.11\Editor\ShaderGUI\MaterialAssemblyReference\RawRenderQueue.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\VertexModifiers\IMeshModifier.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\UIElements\PanelEventHandler.cs" />
-     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Text.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Animation\CoroutineTween.cs" />
-     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\CanvasScaler.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\AspectRatioFitter.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Misc.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\InputModules\StandaloneInputModule.cs" />
@@ -113,7 +116,6 @@
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Dropdown.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\GraphicRebuildTracker.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Culling\Clipping.cs" />
-     <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\ScrollRect.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\Raycasters\BaseRaycaster.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\MaskableGraphic.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\AnimationTriggers.cs" />
@@ -121,7 +123,9 @@
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\EventHandle.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UI\Core\Layout\LayoutGroup.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\EventSystem\InputModules\TouchInputModule.cs" />
+     <None Include="Library\PackageCache\com.unity.shadergraph@12.1.11\Editor\Generation\Targets\BuiltIn\Editor\ShaderGUI\MaterialAssemblyReference\MaterialAssemblyReference.asmref" />
      <None Include="Library\PackageCache\com.unity.ugui@1.0.0\Runtime\UnityEngine.UI.asmdef" />
+     <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.11\Editor\ShaderGUI\MaterialAssemblyReference\MaterialAssemblyReference.asmref" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -386,6 +390,9 @@
     <Reference Include="Unity.VisualScripting.YamlDotNet">
         <HintPath>C:\Users\henry\UnityProjects\Card Game\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Burst.Cecil.Mdb">
+        <HintPath>C:\Users\henry\UnityProjects\Card Game\Library\PackageCache\com.unity.burst@1.8.2\Unity.Burst.CodeGen\Unity.Burst.Cecil.Mdb.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.TextureAssets">
         <HintPath>C:\Users\henry\UnityProjects\Card Game\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\EditorAssetResources\Unity.VisualScripting.TextureAssets.dll</HintPath>
     </Reference>
@@ -395,8 +402,17 @@
     <Reference Include="unityplastic">
         <HintPath>C:\Users\henry\UnityProjects\Card Game\Library\PackageCache\com.unity.collab-proxy@2.0.3\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Burst.Cecil.Pdb">
+        <HintPath>C:\Users\henry\UnityProjects\Card Game\Library\PackageCache\com.unity.burst@1.8.2\Unity.Burst.CodeGen\Unity.Burst.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Cecil">
+        <HintPath>C:\Users\henry\UnityProjects\Card Game\Library\PackageCache\com.unity.burst@1.8.2\Unity.Burst.CodeGen\Unity.Burst.Cecil.dll</HintPath>
+    </Reference>
     <Reference Include="log4netPlastic">
         <HintPath>C:\Users\henry\UnityProjects\Card Game\Library\PackageCache\com.unity.collab-proxy@2.0.3\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Cecil.Rocks">
+        <HintPath>C:\Users\henry\UnityProjects\Card Game\Library\PackageCache\com.unity.burst@1.8.2\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
         <HintPath>C:\Users\henry\UnityProjects\Card Game\Library\PackageCache\com.unity.visualscripting@1.8.0\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
