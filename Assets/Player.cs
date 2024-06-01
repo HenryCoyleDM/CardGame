@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     public Vector3 Velocity = Vector3.zero;
     private bool JumpedThisTick = false;
     private Animator PlayerAnimator;
+    public float Foothold = 1.0f;
     
     // Start is called before the first frame update
     void Start()
@@ -51,18 +52,19 @@ public class Player : MonoBehaviour
         // use WASD to determine horizontal displacement od character
         float horizontal_input = Input.GetAxisRaw("Horizontal");
         float vertical_input = WalkForwardAutomatically ? 1 : Input.GetAxisRaw("Vertical");
-        float previous_vertical_velocity = Velocity.y;
+        Vector3 previous_velocity = Velocity;
         Velocity = (transform.right * horizontal_input + transform.forward * vertical_input) * MovementSpeed;
         if (!SuspendGravity) {
             if (!JumpedThisTick && CharacterController.isGrounded) {
                 KeepOnGround();
             } else {
                 Debug.DrawRay(transform.position, Velocity, new Color(0.5f, 0.0f, 0.8f), 0.0f, false);
-                Velocity.y = previous_vertical_velocity - Gravity * Time.deltaTime;
+                Velocity.y = previous_velocity.y - Gravity * Time.deltaTime;
             }
         }
         CompensateForHitboxDisplacement();
         // move the character and add in gravity
+        Velocity = MixFootholdAndVelocity(previous_velocity);
         CollisionFlags flags = CharacterController.Move(Velocity * Time.deltaTime);
         EliminateVerticalVelocityIfHitCeiling(flags);
         if (IsOutOfBounds()) {
@@ -81,9 +83,8 @@ public class Player : MonoBehaviour
         if (CharacterController.isGrounded) {
             Velocity.y = force;
             JumpedThisTick = true;
-            Debug.Log("Player jumped with force " + force);
         } else {
-            Debug.Log("Player tried to jump but wasn't grounded");
+            // Debug.Log("Player tried to jump but wasn't grounded");
         }
     }
 
@@ -185,5 +186,17 @@ public class Player : MonoBehaviour
         LastHitboxFrameDisplacement = Vector3.zero;
         LastHitboxFrameRotation = Quaternion.identity;
         SuspendGravity = false;
+    }
+
+    public void RecieveKnockback(Vector3 force, float foothold) {
+        Foothold = foothold;
+        Velocity += force;
+    }
+
+    public Vector3 MixFootholdAndVelocity(Vector3 previous_frame_velocity) {
+        float this_velocity_weight = Foothold >= 1.0f ? 1.0f : Mathf.Clamp(2.0f * Mathf.Clamp(Foothold, 0.0f, Mathf.Infinity) * Time.deltaTime, 0.0f, 1.0f);
+        Foothold += Time.deltaTime;
+        Foothold = Mathf.Clamp(Foothold, Mathf.NegativeInfinity, 1.0f);
+        return this_velocity_weight * Velocity + (1 - this_velocity_weight) * previous_frame_velocity;
     }
 }

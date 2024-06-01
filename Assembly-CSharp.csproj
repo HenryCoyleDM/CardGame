@@ -39,7 +39,7 @@
      <Compile Include="Assets\FPSTracker.cs" />
      <Compile Include="Assets\Cards\Jump.cs" />
      <Compile Include="Assets\PlasmaGun.cs" />
-     <Compile Include="Assets\Enemy.cs" />
+     <Compile Include="Assets\GunEnemy.cs" />
      <Compile Include="Assets\CardReward.cs" />
      <Compile Include="Assets\Cards\Dash.cs" />
      <Compile Include="Assets\AllCardTypes.cs" />
@@ -55,6 +55,10 @@
      <Compile Include="Assets\Plasma.cs" />
      <Compile Include="Assets\CardEffects.cs" />
      <Compile Include="Assets\Player.cs" />
+     <Compile Include="Assets\SwordEnemy.cs" />
+     <Compile Include="Assets\Sword.cs" />
+     <Compile Include="Assets\Enemy.cs" />
+     <Compile Include="Assets\Cards\Hesitation.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

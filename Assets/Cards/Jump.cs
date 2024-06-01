@@ -20,7 +20,6 @@ public class Jump : Card
 
     public override void PlayCard()
     {
-        Debug.Log("Called jump card");
         Player player = FindObjectOfType<Player>();
         player.Jump(player.JumpForce * 2);
     }

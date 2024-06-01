@@ -10,6 +10,7 @@ public class CardDetails : ScriptableObject
     public string Text;
     public Texture2D Image;
     public string ClassName;
+    public bool IsUnplayable = false;
     public Type CardClass {
         get {
             return Type.GetType(ClassName);

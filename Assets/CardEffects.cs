@@ -45,10 +45,12 @@ public class CardEffects : MonoBehaviour
     {
         int input = GetCardSelectionKeyDown();
         if (input >= 0 && input < Hand.Count) {
-            Hand[input].PlayCard();
-            DiscardPile.AddLast(Hand[input]);
-            Hand.RemoveAt(input);
-            hand_display.UpdateHand(this);
+            if (!Hand[input].Details.IsUnplayable) {
+                PlayCard(Hand[input]);
+                DiscardPile.AddLast(Hand[input]);
+                Hand.RemoveAt(input);
+                hand_display.UpdateHand(this);
+            }
         }
         if (Input.GetAxis("Fire2") > 0) {
             if (!draw_new_hand_button_pressed) {
@@ -60,6 +62,28 @@ public class CardEffects : MonoBehaviour
         } else {
             draw_new_hand_button_pressed = false;
         }
+    }
+
+    private void PlayCard(Card card) {
+        if (IsHesitating()) {
+            StartCoroutine(DelayCardPlayed(card));
+        } else {
+            card.PlayCard();
+        }
+    }
+
+    private bool IsHesitating() {
+        foreach (Card card in Hand) {
+            if (card.GetType() == typeof(Hesitation)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private IEnumerator DelayCardPlayed(Card card) {
+        yield return new WaitForSeconds(0.75f);
+        card.PlayCard();
     }
 
     private int GetCardSelectionKeyDown() {

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d819e5af42c6814991b3bc9a19b3211, type: 3}
+  m_Name: Hesitation
+  m_EditorClassIdentifier: 
+  Name: Hesitation
+  Text: While in hand, cards have a 0.75 s delay when played.
+  Image: {fileID: 2800000, guid: 648711e7ca44b6f4fbcd59eba6b47608, type: 3}
+  ClassName: Hesitation
+  IsUnplayable: 1
