@@ -16,11 +16,14 @@ public class Player : MonoBehaviour
     public float Gravity;
     public float HP;
     public float MaxHP;
-    public Vector3 HitboxFrameDisplacement = Vector3.zero;
+    private Transform HitboxLeader;
     public float DownStairsMaxStickSlope;
     public bool WalkForwardAutomatically;
     public bool LockCameraAngle;
+    public bool SuspendGravity;
+    private bool SkipHitboxFrameDisplacementThisFrame = false;
     private Vector3 LastHitboxFrameDisplacement = Vector3.zero;
+    private Quaternion LastHitboxFrameRotation = Quaternion.identity;
     private float CameraPitch = 0.0f;
     public Vector3 Velocity = Vector3.zero;
     private bool JumpedThisTick = false;
@@ -32,6 +35,7 @@ public class Player : MonoBehaviour
         CharacterController = GetComponent<CharacterController>();
         PlayerCamera = GetComponentInChildren<Camera>();
         PlayerAnimator = GetComponent<Animator>();
+        HitboxLeader = transform.Find("HitboxLeader");
         // keep cursor in center of frame
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -47,12 +51,15 @@ public class Player : MonoBehaviour
         // use WASD to determine horizontal displacement od character
         float horizontal_input = Input.GetAxisRaw("Horizontal");
         float vertical_input = WalkForwardAutomatically ? 1 : Input.GetAxisRaw("Vertical");
-        Velocity = Velocity.y * Vector3.up + (transform.right * horizontal_input + transform.forward * vertical_input) * MovementSpeed;
-        if (!JumpedThisTick && CharacterController.isGrounded) {
-            KeepOnGround();
-        } else {
-            Debug.DrawRay(transform.position, Velocity, new Color(0.5f, 0.0f, 0.8f), 0.0f, false);
-            Velocity.y -= Gravity * Time.deltaTime;
+        float previous_vertical_velocity = Velocity.y;
+        Velocity = (transform.right * horizontal_input + transform.forward * vertical_input) * MovementSpeed;
+        if (!SuspendGravity) {
+            if (!JumpedThisTick && CharacterController.isGrounded) {
+                KeepOnGround();
+            } else {
+                Debug.DrawRay(transform.position, Velocity, new Color(0.5f, 0.0f, 0.8f), 0.0f, false);
+                Velocity.y = previous_vertical_velocity - Gravity * Time.deltaTime;
+            }
         }
         CompensateForHitboxDisplacement();
         // move the character and add in gravity
@@ -111,10 +118,20 @@ public class Player : MonoBehaviour
     }
 
     public void CompensateForHitboxDisplacement() {
-        Vector3 hitboxDisplacement = HitboxFrameDisplacement - LastHitboxFrameDisplacement;
+        if (SkipHitboxFrameDisplacementThisFrame) {
+            SkipHitboxFrameDisplacementThisFrame = false;
+            return;
+        }
+        Vector3 hitboxDisplacement = HitboxLeader.localPosition - LastHitboxFrameDisplacement;
         Vector3 transformedHitboxDisplacement = transform.rotation * hitboxDisplacement;
-        LastHitboxFrameDisplacement = HitboxFrameDisplacement;
+        LastHitboxFrameDisplacement = HitboxLeader.localPosition;
+        if (!SuspendGravity) {
+            transformedHitboxDisplacement.y = 0.0f;
+        }
         Velocity += transformedHitboxDisplacement / Time.deltaTime;
+        Quaternion deltaRotation = Quaternion.Inverse(LastHitboxFrameRotation) * HitboxLeader.localRotation ;
+        LastHitboxFrameRotation = HitboxLeader.localRotation;
+        transform.rotation *= deltaRotation;
     }
 
     public void AdjustCameraAngle() {
@@ -151,5 +168,22 @@ public class Player : MonoBehaviour
             Velocity.y = -0.1f;
             Debug.DrawRay(transform.position, Velocity, Color.blue, 0.0f, false);
         }
+    }
+
+    public void StartSideHopping() {
+        PlayerAnimator.SetBool("IsSideHopping", true);
+    }
+
+    public void ExecuteSideHop() {
+        PlayerAnimator.SetBool("IsSideHopping", false);
+    }
+
+    public void ResetHitboxFrameLeader() {
+        SkipHitboxFrameDisplacementThisFrame = true;
+        HitboxLeader.localPosition = Vector3.zero;
+        HitboxLeader.localRotation = Quaternion.identity;
+        LastHitboxFrameDisplacement = Vector3.zero;
+        LastHitboxFrameRotation = Quaternion.identity;
+        SuspendGravity = false;
     }
 }

@@ -43,6 +43,7 @@
      <Compile Include="Assets\CardReward.cs" />
      <Compile Include="Assets\Cards\Dash.cs" />
      <Compile Include="Assets\AllCardTypes.cs" />
+     <Compile Include="Assets\Cards\SideHop.cs" />
      <Compile Include="Assets\Card.cs" />
      <Compile Include="Assets\CardboardDrawer.cs" />
      <Compile Include="Assets\HPTracker.cs" />

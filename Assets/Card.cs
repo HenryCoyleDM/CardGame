@@ -44,4 +44,10 @@ public abstract class Card : MonoBehaviour
         card_holder.AddComponent(cardType);
         return (Card) card_holder.GetComponent(cardType);
     }
+
+    public static Card CreateCardGameObject(Card card) {
+        GameObject card_holder = new GameObject();
+        card_holder.AddComponent(card.GetType());
+        return (Card) card_holder.GetComponent(card.GetType());
+    }
 }

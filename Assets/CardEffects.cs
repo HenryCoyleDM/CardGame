@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Scripting;
 
 [System.Serializable]
@@ -155,7 +156,8 @@ public class CardEffects : MonoBehaviour
     }
 
     public void GainCardToDiscard(Card card) {
-        DiscardPile.AddLast(card);
+        Card card_clone = Card.CreateCardGameObject(card);
+        DiscardPile.AddLast(card_clone);
         hand_display.UpdateDeck(this);
     }
 }

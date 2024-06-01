@@ -372,6 +372,7 @@
 "Assets/CardReward.cs"
 "Assets/Cards/Dash.cs"
 "Assets/Cards/Jump.cs"
+"Assets/Cards/SideHop.cs"
 "Assets/Cards/Stab.cs"
 "Assets/Enemy.cs"
 "Assets/FPSTracker.cs"
