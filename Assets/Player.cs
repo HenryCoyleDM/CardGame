@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
             Velocity.y = force;
             JumpedThisTick = true;
         } else {
-            // Debug.Log("Player tried to jump but wasn't grounded");
+            Debug.Log("Player tried to jump but wasn't grounded");
         }
     }
 
@@ -151,7 +151,7 @@ public class Player : MonoBehaviour
 
     public void KeepOnGround() {
         Vector3 horizontal_velocity = GetHorizontalVelocity();
-        if (CharacterController.isGrounded && horizontal_velocity.sqrMagnitude > 0.0f) {
+        if (horizontal_velocity.sqrMagnitude > 0.001f) {
             Vector3 in_front_of_player_position = transform.position + horizontal_velocity * Time.deltaTime;
             float raycast_distance = CharacterController.height / 2 + CharacterController.skinWidth + horizontal_velocity.magnitude * DownStairsMaxStickSlope * Time.deltaTime;
             bool found_point_under_player = Physics.Raycast(transform.position, Vector3.down, out RaycastHit under_player_hit_info, raycast_distance + 1.5f);
@@ -166,9 +166,9 @@ public class Player : MonoBehaviour
                     return;
                 }
             }
-            Velocity.y = -0.1f;
             Debug.DrawRay(transform.position, Velocity, Color.blue, 0.0f, false);
         }
+        Velocity.y = -0.1f;
     }
 
     public void StartSideHopping() {

@@ -33,21 +33,24 @@ public abstract class Card : MonoBehaviour
 
     public abstract void PlayCard();
 
-    public static T CreateCardGameObject<T>() where T : Card {
+    public static T CreateCardGameObject<T>(CardEffects parent) where T : Card {
         GameObject card_holder = new();
         card_holder.AddComponent<T>();
+        card_holder.transform.parent = parent.transform;
         return card_holder.GetComponent<T>();
     }
 
-    public static Card CreateCardGameObject(Type cardType) {
+    public static Card CreateCardGameObject(CardEffects parent, Type cardType) {
         GameObject card_holder = new GameObject();
         card_holder.AddComponent(cardType);
+        card_holder.transform.parent = parent.transform;
         return (Card) card_holder.GetComponent(cardType);
     }
 
-    public static Card CreateCardGameObject(Card card) {
+    public static Card CreateCardGameObject(CardEffects parent, Card card) {
         GameObject card_holder = new GameObject();
         card_holder.AddComponent(card.GetType());
+        card_holder.transform.parent = parent.transform;
         return (Card) card_holder.GetComponent(card.GetType());
     }
 }

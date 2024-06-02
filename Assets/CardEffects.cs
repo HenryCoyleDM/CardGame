@@ -18,16 +18,16 @@ public class CardEffects : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DiscardPile.AddFirst(Card.CreateCardGameObject<Jump>());
-        DiscardPile.AddFirst(Card.CreateCardGameObject<Jump>());
-        DiscardPile.AddFirst(Card.CreateCardGameObject<Jump>());
-        DiscardPile.AddFirst(Card.CreateCardGameObject<Jump>());
-        DiscardPile.AddFirst(Card.CreateCardGameObject<Jump>());
-        DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>());
-        DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>());
-        DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>());
-        DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>());
-        DiscardPile.AddFirst(Card.CreateCardGameObject<Stab>());
+        DiscardPile.AddFirst(Card.CreateCardGameObject<Jump>(this));
+        DiscardPile.AddFirst(Card.CreateCardGameObject<Jump>(this));
+        DiscardPile.AddFirst(Card.CreateCardGameObject<Jump>(this));
+        DiscardPile.AddFirst(Card.CreateCardGameObject<Jump>(this));
+        DiscardPile.AddFirst(Card.CreateCardGameObject<Jump>(this));
+        DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>(this));
+        DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>(this));
+        DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>(this));
+        DiscardPile.AddFirst(Card.CreateCardGameObject<Dash>(this));
+        DiscardPile.AddFirst(Card.CreateCardGameObject<Stab>(this));
         ShuffleDiscardAndMakeNewDrawPile();
         DrawNewHand(5);
         hand_display = FindObjectOfType<HandDisplay>();
@@ -180,7 +180,7 @@ public class CardEffects : MonoBehaviour
     }
 
     public void GainCardToDiscard(Card card) {
-        Card card_clone = Card.CreateCardGameObject(card);
+        Card card_clone = Card.CreateCardGameObject(this, card);
         DiscardPile.AddLast(card_clone);
         hand_display.UpdateDeck(this);
     }

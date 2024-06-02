@@ -13,8 +13,6 @@ public class AllCardTypes : ScriptableObject
     void Awake() {
         string[] guids = AssetDatabase.FindAssets("t:CardDetails", new string[]{"Assets/Cards"});
         foreach (string guid in guids) {
-            Debug.Log("GUID: "+guid);
-            Debug.Log("Asset Path: "+AssetDatabase.GUIDToAssetPath(guid));
             TypesList.Add(AssetDatabase.LoadAssetAtPath<CardDetails>(AssetDatabase.GUIDToAssetPath(guid)));
         }
     }

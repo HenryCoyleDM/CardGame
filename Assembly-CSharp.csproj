@@ -42,6 +42,8 @@
      <Compile Include="Assets\PlasmaGun.cs" />
      <Compile Include="Assets\GunEnemy.cs" />
      <Compile Include="Assets\CardReward.cs" />
+     <Compile Include="Assets\DrawPileUICounter.cs" />
+     <Compile Include="Assets\DiscardPileUICounter.cs" />
      <Compile Include="Assets\Cards\Dash.cs" />
      <Compile Include="Assets\AllCardTypes.cs" />
      <Compile Include="Assets\Cards\SideHop.cs" />
@@ -59,6 +61,8 @@
      <Compile Include="Assets\SwordEnemy.cs" />
      <Compile Include="Assets\CardEffects.cs" />
      <Compile Include="Assets\Player.cs" />
+     <Compile Include="Assets\FloatSpring.cs" />
+     <Compile Include="Assets\Vector3Spring.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
@@ -773,21 +777,21 @@
       <Project>{3b96f5e6-a66f-1856-c92c-82eeb7a49415}</Project>
       <Name>Unity.Searcher.Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.VisualScripting.SettingsProvider.Editor.csproj">
-      <Project>{f64f9529-def5-dfc6-2ebb-c22151ff32f8}</Project>
-      <Name>Unity.VisualScripting.SettingsProvider.Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj">
       <Project>{07b699b8-50e6-094e-b0dc-eef518206858}</Project>
       <Name>Unity.RenderPipelines.Core.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.VisualScripting.SettingsProvider.Editor.csproj">
+      <Project>{f64f9529-def5-dfc6-2ebb-c22151ff32f8}</Project>
+      <Name>Unity.VisualScripting.SettingsProvider.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.csproj">
       <Project>{edcd5cf6-af1a-808d-4e31-d9b873c435db}</Project>
       <Name>Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.VisualScripting.Flow.csproj">
-      <Project>{cead5d3d-cde8-a3e7-2ed0-651de803edef}</Project>
-      <Name>Unity.VisualScripting.Flow</Name>
+    <ProjectReference Include="Unity.Postprocessing.Editor.csproj">
+      <Project>{d051d405-3b5f-7193-7a50-7f7e7ec4a356}</Project>
+      <Name>Unity.Postprocessing.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
       <Project>{42be319c-3321-d9a2-c4d5-688a0c010e62}</Project>
@@ -804,6 +808,10 @@
     <ProjectReference Include="Unity.RenderPipelines.Core.ShaderLibrary.csproj">
       <Project>{8b2f4610-1d83-e97e-6893-046ca002649e}</Project>
       <Name>Unity.RenderPipelines.Core.ShaderLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.VisualScripting.Flow.csproj">
+      <Project>{cead5d3d-cde8-a3e7-2ed0-651de803edef}</Project>
+      <Name>Unity.VisualScripting.Flow</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
       <Project>{fa39d7bf-0842-f0c3-a1b6-cd47d9c88851}</Project>
@@ -828,6 +836,10 @@
     <ProjectReference Include="Unity.Burst.csproj">
       <Project>{ff4cab59-6517-b3d9-19c8-8d525718212e}</Project>
       <Name>Unity.Burst</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Postprocessing.Runtime.csproj">
+      <Project>{43dbc177-d777-e224-ecfa-652f66559fce}</Project>
+      <Name>Unity.Postprocessing.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.RenderPipelines.Universal.Editor.csproj">
       <Project>{382ae408-5389-175c-4ce6-a19932326f75}</Project>
@@ -864,14 +876,6 @@
     <ProjectReference Include="Unity.VisualScripting.State.csproj">
       <Project>{3a0f8730-0d68-4664-78c8-41c6b0d8fe6e}</Project>
       <Name>Unity.VisualScripting.State</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Postprocessing.Editor.csproj">
-      <Project>{d051d405-3b5f-7193-7a50-7f7e7ec4a356}</Project>
-      <Name>Unity.Postprocessing.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Postprocessing.Runtime.csproj">
-      <Project>{43dbc177-d777-e224-ecfa-652f66559fce}</Project>
-      <Name>Unity.Postprocessing.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -33,15 +33,25 @@ public class HandDisplay : MonoBehaviour
 
     public void UpdateHand(CardEffects deckHandler) {
         // Debug.Log("Updating hand");
-        foreach (CardboardDrawer cardboard in Cardboards.Values) {
-            cardboard.gameObject.SetActive(false);
-        }
-        for (int i=0; i<deckHandler.Hand.Count; i++) {
-            Card card = deckHandler.Hand[i];
-            CardboardDrawer cardboard = Cardboards[card];
-            cardboard.gameObject.SetActive(true);
-            cardboard.transform.localPosition = GetCoordinatesOfCardIndex(i, deckHandler.Hand.Count);
-            cardboard.SetSelectionKey(i + 1);
+        foreach (KeyValuePair<Card, CardboardDrawer> entry in Cardboards) {
+            Card card = entry.Key;
+            CardboardDrawer cardboard = entry.Value;
+            int hand_index = deckHandler.Hand.IndexOf(card);
+            if (hand_index >= 0) {
+                cardboard.gameObject.SetActive(true);
+                cardboard.transform.localPosition = GetCoordinatesOfCardIndex(hand_index, deckHandler.Hand.Count);
+                if (!cardboard.WasInHandLastFrame) {
+                    cardboard.AnimateDraw();
+                }
+                cardboard.SetSelectionKey(hand_index + 1);
+                cardboard.WasInHandLastFrame = true;
+            } else {
+                if (cardboard.WasInHandLastFrame) {
+                    cardboard.gameObject.SetActive(true);
+                    cardboard.AnimatePlayAndDiscard();
+                }
+                cardboard.WasInHandLastFrame = false;
+            }
         }
     }
 

@@ -378,7 +378,10 @@
 "Assets/Cards/Jump.cs"
 "Assets/Cards/SideHop.cs"
 "Assets/Cards/Stab.cs"
+"Assets/DiscardPileUICounter.cs"
+"Assets/DrawPileUICounter.cs"
 "Assets/Enemy.cs"
+"Assets/FloatSpring.cs"
 "Assets/FPSTracker.cs"
 "Assets/GunEnemy.cs"
 "Assets/HandDisplay.cs"
@@ -390,6 +393,7 @@
 "Assets/SwordEnemy.cs"
 "Assets/TextureTiler.cs"
 "Assets/TimeController.cs"
+"Assets/Vector3Spring.cs"
 -langversion:9.0
 
 /deterministic
