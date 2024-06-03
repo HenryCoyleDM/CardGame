@@ -18,6 +18,8 @@ public class Vector3Spring
     public float Drag = 0.5f;
     [SerializeField]
     private float _stiffness = 1.0f;
+    public float SnapRadius;
+    private bool SnapNextFrame;
     
     private Vector3 _value;
     private Vector3 _velocity;
@@ -25,14 +27,30 @@ public class Vector3Spring
 
     public Vector3 Value {
         get {
-            float stiffness = Mathf.Pow(2 * Mathf.PI * Frequency, 2.0f);
-            _velocity = _velocity * (1 - Drag * Time.deltaTime) + (_equilibrium - _value) * stiffness * Time.deltaTime;
-            _value += _velocity * Time.deltaTime;
+            if (SnapNextFrame) {
+                _value = _equilibrium;
+                _velocity = Vector3.zero;
+                SnapNextFrame = false;
+            } else {
+                float stiffness = Mathf.Pow(2 * Mathf.PI * Frequency, 2.0f);
+                _velocity = _velocity * (1 - Drag * Time.deltaTime) + (_equilibrium - _value) * stiffness * Time.deltaTime;
+                _value += _velocity * Time.deltaTime;
+            }
+            if (IsCloseEnoughForSnapping()) {
+                SnapNextFrame = true;
+            }
             return _value;
         }
         set {
             _equilibrium = value;
+            if (!IsCloseEnoughForSnapping()) {
+                SnapNextFrame = false;
+            }
         }
+    }
+
+    private bool IsCloseEnoughForSnapping() {
+        return (_value - _equilibrium).sqrMagnitude < SnapRadius * SnapRadius;
     }
 
     public Vector3Spring(Vector3 equilibrium, float frequency, float drag) {
@@ -54,5 +72,11 @@ public class Vector3Spring
     public void SetValue(Vector3 value, Vector3 velocity) {
         _value = value;
         _velocity = velocity;
+    }
+
+    public void SetVelocityInDirectionOfGoal(Vector3 ratio) {
+        Quaternion toGoalRotation = Quaternion.LookRotation(_equilibrium - _value);
+        ratio = toGoalRotation * ratio;
+        _velocity = ratio * (_equilibrium - _value).magnitude;
     }
 }

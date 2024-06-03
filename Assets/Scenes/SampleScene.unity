@@ -2869,7 +2869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7792db8c7b5fd444e80485c7b2bc3733, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletTimeOverride: 0
+  BulletTimeOverride: 1
 --- !u!4 &1495130827
 Transform:
   m_ObjectHideFlags: 0

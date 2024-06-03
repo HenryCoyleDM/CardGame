@@ -369,7 +369,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/AllCardTypes.cs"
 "Assets/Card.cs"
-"Assets/CardboardDrawer.cs"
+"Assets/Cardboard.cs"
 "Assets/CardDetails.cs"
 "Assets/CardEffects.cs"
 "Assets/CardReward.cs"

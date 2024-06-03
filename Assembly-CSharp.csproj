@@ -50,7 +50,7 @@
      <Compile Include="Assets\Card.cs" />
      <Compile Include="Assets\Cards\Hesitation.cs" />
      <Compile Include="Assets\Sword.cs" />
-     <Compile Include="Assets\CardboardDrawer.cs" />
+     <Compile Include="Assets\Cardboard.cs" />
      <Compile Include="Assets\FloatSpring.cs" />
      <Compile Include="Assets\Vector3Spring.cs" />
      <Compile Include="Assets\HPTracker.cs" />
@@ -59,11 +59,11 @@
      <Compile Include="Assets\HandDisplay.cs" />
      <Compile Include="Assets\TimeController.cs" />
      <Compile Include="Assets\Cards\Stab.cs" />
+     <Compile Include="Assets\Cards\QuantumTunnel.cs" />
      <Compile Include="Assets\Plasma.cs" />
      <Compile Include="Assets\SwordEnemy.cs" />
      <Compile Include="Assets\CardEffects.cs" />
      <Compile Include="Assets\Player.cs" />
-     <Compile Include="Assets\Cards\QuantumTunnel.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

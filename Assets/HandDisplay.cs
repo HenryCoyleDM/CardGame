@@ -11,8 +11,8 @@ public class HandDisplay : MonoBehaviour
 {
     // private CardEffects DeckHandler;
     // maps the cards from DeckHandler to GameObjects used to display cards
-    public readonly Dictionary<Card, CardboardDrawer> Cardboards = new();
-    public CardboardDrawer CardboardPrefab;
+    public readonly Dictionary<Card, Cardboard> Cardboards = new();
+    public Cardboard CardboardPrefab;
     public float CardSpacing;
     
     // Start is called before the first frame update
@@ -33,13 +33,13 @@ public class HandDisplay : MonoBehaviour
 
     public void UpdateHand(CardEffects deckHandler) {
         // Debug.Log("Updating hand");
-        foreach (KeyValuePair<Card, CardboardDrawer> entry in Cardboards) {
+        foreach (KeyValuePair<Card, Cardboard> entry in Cardboards) {
             Card card = entry.Key;
-            CardboardDrawer cardboard = entry.Value;
+            Cardboard cardboard = entry.Value;
             int hand_index = deckHandler.Hand.IndexOf(card);
             if (hand_index >= 0) {
                 cardboard.gameObject.SetActive(true);
-                cardboard.transform.localPosition = GetCoordinatesOfCardIndex(hand_index, deckHandler.Hand.Count);
+                cardboard.LocalPosition.Value = GetCoordinatesOfCardIndex(hand_index, deckHandler.Hand.Count);
                 if (!cardboard.WasInHandLastFrame) {
                     cardboard.AnimateDraw();
                 }
@@ -70,7 +70,7 @@ public class HandDisplay : MonoBehaviour
         // add new cards to the dictionary if they don't already exist
         foreach (Card card in deck) {
             if (!Cardboards.ContainsKey(card)) {
-                CardboardDrawer cardboard = CreateCardboard(card);
+                Cardboard cardboard = CreateCardboard(card);
                 Cardboards[card] = cardboard;
             } else {
                 CardsArePresentInNewDeck[card] = true;
@@ -79,18 +79,17 @@ public class HandDisplay : MonoBehaviour
         // removes and destroys gameobjects if those cards are no longer in the deck
         foreach (KeyValuePair<Card, bool> is_card_present in CardsArePresentInNewDeck.AsEnumerable()) {
             if (!is_card_present.Value) {
-                CardboardDrawer old_cardboard = Cardboards[is_card_present.Key];
+                Cardboard old_cardboard = Cardboards[is_card_present.Key];
                 Destroy(old_cardboard.gameObject);
                 Cardboards.Remove(is_card_present.Key);
             }
         }
     }
 
-    private CardboardDrawer CreateCardboard(Card card) {
-        CardboardDrawer result = Instantiate(CardboardPrefab);
+    private Cardboard CreateCardboard(Card card) {
+        Cardboard result = Instantiate(CardboardPrefab);
         result.SetImage(card);
         result.transform.SetParent(transform);
-        result.gameObject.SetActive(false);
         return result;
     }
 }
