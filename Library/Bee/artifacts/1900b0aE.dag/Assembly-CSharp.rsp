@@ -376,6 +376,7 @@
 "Assets/Cards/Dash.cs"
 "Assets/Cards/Hesitation.cs"
 "Assets/Cards/Jump.cs"
+"Assets/Cards/QuantumTunnel.cs"
 "Assets/Cards/SideHop.cs"
 "Assets/Cards/Stab.cs"
 "Assets/DiscardPileUICounter.cs"

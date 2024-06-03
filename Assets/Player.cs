@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     private bool JumpedThisTick = false;
     private Animator PlayerAnimator;
     public float Foothold = 1.0f;
+    public bool HasFloorBelow;
+    public bool IsGrounded;
     
     // Start is called before the first frame update
     void Start()
@@ -45,6 +47,10 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
+        IsGrounded = CharacterController.isGrounded;
+        if (!IsGrounded) {
+            HasFloorBelow = false;
+        }
         if (Input.GetKeyDown("space")) {
             Jump(JumpForce);
         }
@@ -54,18 +60,21 @@ public class Player : MonoBehaviour
         float vertical_input = WalkForwardAutomatically ? 1 : Input.GetAxisRaw("Vertical");
         Vector3 previous_velocity = Velocity;
         Velocity = (transform.right * horizontal_input + transform.forward * vertical_input) * MovementSpeed;
+        Velocity = MixFootholdAndVelocity(previous_velocity);
         if (!SuspendGravity) {
             if (!JumpedThisTick && CharacterController.isGrounded) {
                 KeepOnGround();
             } else {
-                Debug.DrawRay(transform.position, Velocity, new Color(0.5f, 0.0f, 0.8f), 0.0f, false);
                 Velocity.y = previous_velocity.y - Gravity * Time.deltaTime;
+                Debug.DrawRay(transform.position, Velocity, new Color(0.5f, 0.0f, 0.8f), 0.0f, false);
             }
         }
         CompensateForHitboxDisplacement();
-        // move the character and add in gravity
-        Velocity = MixFootholdAndVelocity(previous_velocity);
-        CollisionFlags flags = CharacterController.Move(Velocity * Time.deltaTime);
+        Vector3 thisFrameDisplacement = Velocity * Time.deltaTime;
+        if (HasFloorBelow && !JumpedThisTick && !SuspendGravity) {
+            thisFrameDisplacement.y -= 0.1f;
+        }
+        CollisionFlags flags = CharacterController.Move(thisFrameDisplacement);
         EliminateVerticalVelocityIfHitCeiling(flags);
         if (IsOutOfBounds()) {
             transform.position = new Vector3(0.0f, 10.0f, 0.0f);
@@ -103,11 +112,10 @@ public class Player : MonoBehaviour
     }
 
     public void StartStabbing() {
-        PlayerAnimator.SetBool("IsStabbing", true);
+        PlayerAnimator.SetTrigger("Stab");
     }
 
     public void ExecuteStab() {
-        PlayerAnimator.SetBool("IsStabbing", false);
         Collider[] colliders = Physics.OverlapSphere(transform.position, 5.0f);
         foreach (Collider collider in colliders) {
             Enemy enemy = collider.gameObject.GetComponent<Enemy>();
@@ -156,27 +164,24 @@ public class Player : MonoBehaviour
             float raycast_distance = CharacterController.height / 2 + CharacterController.skinWidth + horizontal_velocity.magnitude * DownStairsMaxStickSlope * Time.deltaTime;
             bool found_point_under_player = Physics.Raycast(transform.position, Vector3.down, out RaycastHit under_player_hit_info, raycast_distance + 1.5f);
             bool found_point_on_slope = Physics.Raycast(in_front_of_player_position, Vector3.down, out RaycastHit on_slope_hit_info, raycast_distance + 1.5f);
+            HasFloorBelow = found_point_under_player;
             if (found_point_under_player && found_point_on_slope) {
                 float current_elevation = under_player_hit_info.point.y;
                 float target_elevation = on_slope_hit_info.point.y;
                 float delta_elevation = target_elevation - current_elevation;
                 if (delta_elevation >= -horizontal_velocity.magnitude * DownStairsMaxStickSlope && delta_elevation < 0.0f) {
-                    Velocity.y = delta_elevation / Time.deltaTime - 0.1f;
+                    Velocity.y = delta_elevation / Time.deltaTime;
                     Debug.DrawRay(transform.position, Velocity, Color.magenta, 0.0f, false);
                     return;
                 }
             }
             Debug.DrawRay(transform.position, Velocity, Color.blue, 0.0f, false);
         }
-        Velocity.y = -0.1f;
+        // Velocity.y = -0.1f;
     }
 
     public void StartSideHopping() {
-        PlayerAnimator.SetBool("IsSideHopping", true);
-    }
-
-    public void ExecuteSideHop() {
-        PlayerAnimator.SetBool("IsSideHopping", false);
+        PlayerAnimator.SetTrigger("SideHop");
     }
 
     public void ResetHitboxFrameLeader() {
@@ -194,7 +199,7 @@ public class Player : MonoBehaviour
     }
 
     public Vector3 MixFootholdAndVelocity(Vector3 previous_frame_velocity) {
-        float this_velocity_weight = Foothold >= 1.0f ? 1.0f : Mathf.Clamp(2.0f * Mathf.Clamp(Foothold, 0.0f, Mathf.Infinity) * Time.deltaTime, 0.0f, 1.0f);
+        float this_velocity_weight = Foothold >= 1.0f ? 1.0f : Mathf.Clamp(2.0f * Foothold * Time.deltaTime, 0.0f, 1.0f);
         Foothold += Time.deltaTime;
         Foothold = Mathf.Clamp(Foothold, Mathf.NegativeInfinity, 1.0f);
         return this_velocity_weight * Velocity + (1 - this_velocity_weight) * previous_frame_velocity;

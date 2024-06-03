@@ -11,6 +11,7 @@ public class CardDetails : ScriptableObject
     public Texture2D Image;
     public string ClassName;
     public bool IsUnplayable = false;
+    public bool IsCurse = false;
     public Type CardClass {
         get {
             return Type.GetType(ClassName);

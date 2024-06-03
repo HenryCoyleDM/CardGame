@@ -46,9 +46,12 @@ public class CardEffects : MonoBehaviour
         int input = GetCardSelectionKeyDown();
         if (input >= 0 && input < Hand.Count) {
             if (!Hand[input].Details.IsUnplayable) {
-                PlayCard(Hand[input]);
-                DiscardPile.AddLast(Hand[input]);
-                Hand.RemoveAt(input);
+                Card playing_card = Hand[input];
+                PlayCard(playing_card);
+                if (IsInDeck(playing_card)) {
+                    DiscardPile.AddLast(Hand[input]);
+                    Hand.RemoveAt(input);
+                }
                 hand_display.UpdateHand(this);
             }
         }
@@ -70,6 +73,10 @@ public class CardEffects : MonoBehaviour
         } else {
             card.PlayCard();
         }
+    }
+
+    private bool IsInDeck(Card card) {
+        return Hand.Contains(card) || DiscardPile.Contains(card) || Deck.Contains(card);
     }
 
     private bool IsHesitating() {
@@ -183,5 +190,15 @@ public class CardEffects : MonoBehaviour
         Card card_clone = Card.CreateCardGameObject(this, card);
         DiscardPile.AddLast(card_clone);
         hand_display.UpdateDeck(this);
+    }
+
+    public Card RemoveCard(Card card) {
+        if (Deck.Remove(card) || DiscardPile.Remove(card) || Hand.Remove(card)) {
+            hand_display.UpdateDeck(this);
+            Destroy(card.gameObject);
+            return card;
+        } else {
+            return null;
+        }
     }
 }

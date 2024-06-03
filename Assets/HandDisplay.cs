@@ -80,7 +80,7 @@ public class HandDisplay : MonoBehaviour
         foreach (KeyValuePair<Card, bool> is_card_present in CardsArePresentInNewDeck.AsEnumerable()) {
             if (!is_card_present.Value) {
                 CardboardDrawer old_cardboard = Cardboards[is_card_present.Key];
-                Destroy(old_cardboard);
+                Destroy(old_cardboard.gameObject);
                 Cardboards.Remove(is_card_present.Key);
             }
         }
